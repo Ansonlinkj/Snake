@@ -29,10 +29,52 @@ AppleThickness = 30
 block_size = 20
 FPS = 15
 direction = "right"
+
+def game_intro():
+    intro = True
+
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_c:
+                    intro = False
+
+                if event.key == pygame.K_q:
+                    quit()
+        gameDisplay.fill(white)
+        message_to_screen("Welcome to Slither",
+                          green,
+                          -100,
+                          "large")
+
+        message_to_screen("The object of the game is to eat red apples",
+                          black,
+                          -30)
+        
+        message_to_screen("The more apples you eat, the longer you get",
+                          black,
+                          10)
+
+        message_to_screen("If you run into yourself, or the edges, you die",
+                          black,
+                          50)
+
+        message_to_screen("Press C to play or Q to quit",
+                          black,
+                          180)
+        pygame.display.update()
+        clock.tick(15)
+        
+
 # generate a snake
+# snakehead point direction
 def snake(block_size, snakelist):
 
-##snakehead point direction
+
     if direction == "right":
         head = pygame.transform.rotate(img, 270)
 
@@ -52,17 +94,26 @@ def snake(block_size, snakelist):
     
     
 #pygame.font: Create a Font object from the system fonts
-font = pygame.font.SysFont(None, 25)
+smallfont = pygame.font.SysFont("comicsansms", 25)
+medfont = pygame.font.SysFont("comicsansms", 50)
+largefont = pygame.font.SysFont("comicsansms", 80)
+
+
 
 #define text object (center all text)
-def text_objects(text,color):
-    textSurface = font.render(text,True,color)
+def text_objects(text,color,size):
+    if size == "small":
+        textSurface = smallfont.render(text,True,color)
+    elif size == "medium":
+        textSurface = medfont.render(text,True,color)
+    elif size == "large":
+        textSurface = largefont.render(text,True,color)
     return textSurface, textSurface.get_rect()
     
 #Add text
-def message_to_screen(msg,color):
-    textSurf, textRect = text_objects(msg,color)    
-    textRect.center = (display_width/2), (display_height/2)
+def message_to_screen(msg,color, y_displace=0, size="small"):
+    textSurf, textRect = text_objects(msg,color,size)    
+    textRect.center = (display_width/2), (display_height/2)+y_displace
     gameDisplay.blit(textSurf, textRect)
 
 
@@ -94,7 +145,15 @@ def gameLoop():
         #game over functionality 
         while gameOver == True:
             gameDisplay.fill(white)
-            message_to_screen("Game over, press C to play again or Q to quit", red)
+            message_to_screen("Game over",
+                              red,
+                              -50,
+                              size="large")
+            
+            message_to_screen("Press C to play again or Q  to quit",
+                              black,
+                              50,
+                              size="medium")
             pygame.display.update()
 
             for event in pygame.event.get():
@@ -233,5 +292,5 @@ def gameLoop():
 
     ##quit the python window
     quit()
-
+game_intro()
 gameLoop()
