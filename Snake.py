@@ -99,7 +99,13 @@ def snake(block_size, snakelist):
         pygame.draw.rect(gameDisplay, green, [XnY[0], XnY[1], block_size, block_size])
 
     
-    
+def randAppleGen():
+    randAppleX = round(random.randrange(0, display_width-AppleThickness))#/10.0)*10.0
+    randAppleY = round(random.randrange(0, display_height-AppleThickness))#/10.0)*10.0
+
+    return randAppleX, randAppleY
+
+
 #pygame.font: Create a Font object from the system fonts
 smallfont = pygame.font.SysFont("comicsansms", 25)
 medfont = pygame.font.SysFont("comicsansms", 50)
@@ -145,8 +151,7 @@ def gameLoop():
     snakeList = []
     snakeLength = 1
     # Random Location of apples
-    randAppleX = round(random.randrange(0, display_width-AppleThickness))#/10.0)*10.0
-    randAppleY = round(random.randrange(0, display_height-AppleThickness))#/10.0)*10.0
+    randAppleX, randAppleY = randAppleGen()
     
     while not gameExit:
         #game over functionality 
@@ -280,12 +285,10 @@ def gameLoop():
         #if cross over or say "apple be eaten"
         if lead_x > randAppleX and lead_x < randAppleX + AppleThickness or lead_x + block_size > randAppleX and lead_x + block_size <randAppleX + AppleThickness:
             if lead_y > randAppleY and lead_y <randAppleY + AppleThickness:
-                randAppleX = round(random.randrange(0, display_width-AppleThickness))#/10.0)*10.0
-                randAppleY = round(random.randrange(0, display_height-AppleThickness))#/10.0)*10.0
+                randAppleX, randAppleY = randAppleGen()
                 snakeLength += 1
-            elif lead_y + block_size > randAppleY and lead_y + block_size <randAppleY + AppleThickness:
-                randAppleX = round(random.randrange(0, display_width-AppleThickness))#/10.0)*10.0
-                randAppleY = round(random.randrange(0, display_height-AppleThickness))#/10.0)*10.0
+            elif lead_y + block_size > randAppleY and lead_y + block_size < randAppleY + AppleThickness:
+                randAppleX, randAppleY = randAppleGen()
                 snakeLength += 1
             
         clock.tick(FPS)
