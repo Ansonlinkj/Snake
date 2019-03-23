@@ -98,7 +98,8 @@ def snake(block_size, snakelist):
     for XnY in snakelist[:-1]:
         pygame.draw.rect(gameDisplay, green, [XnY[0], XnY[1], block_size, block_size])
 
-    
+
+#random apple generator
 def randAppleGen():
     randAppleX = round(random.randrange(0, display_width-AppleThickness))#/10.0)*10.0
     randAppleY = round(random.randrange(0, display_height-AppleThickness))#/10.0)*10.0
@@ -106,6 +107,10 @@ def randAppleGen():
     return randAppleX, randAppleY
 
 
+
+
+
+    
 #pygame.font: Create a Font object from the system fonts
 smallfont = pygame.font.SysFont("comicsansms", 25)
 medfont = pygame.font.SysFont("comicsansms", 50)
@@ -123,7 +128,13 @@ def text_objects(text,color,size):
         textSurface = largefont.render(text,True,color)
     return textSurface, textSurface.get_rect()
     
-#Add text
+#score
+def score(score):
+    text = smallfont.render("Score: "+str(score), True, black)
+    gameDisplay.blit(text,[0,0])
+
+
+#Add text (centered )
 def message_to_screen(msg,color, y_displace=0, size="small"):
     textSurf, textRect = text_objects(msg,color,size)    
     textRect.center = (display_width/2), (display_height/2)+y_displace
@@ -276,7 +287,7 @@ def gameLoop():
                 gameOver = True
         
         snake(block_size, snakeList)
-        
+        score(snakeLength-1)
         #Restriction:clock.tick (*framerate): never run more than *framerate frames per sec
         pygame.display.update()
 
