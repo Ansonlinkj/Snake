@@ -70,7 +70,7 @@ def game_intro():
                           black,
                           50)
 
-        message_to_screen("Press C to play or Q to quit",
+        message_to_screen("Press C to play, P to pause or Q to quit",
                           black,
                           180)
         pygame.display.update()
@@ -127,6 +127,34 @@ def text_objects(text,color,size):
     elif size == "large":
         textSurface = largefont.render(text,True,color)
     return textSurface, textSurface.get_rect()
+
+#pause the game function
+def pause():
+    paused = True
+
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_c:
+                    paused = False
+
+                elif event.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
+        gameDisplay.fill(white)
+        message_to_screen("Paused",
+                          black,
+                          -100,
+                          size = "large")
+        message_to_screen("Press C to contimue or Q to quit.",
+                          black,
+                          25)
+        pygame.display.update()
+        clock.tick(5)
     
 #score
 def score(score):
@@ -240,7 +268,8 @@ def gameLoop():
                     lead_y_change = block_size
                     lead_x_change = 0
                     direction = "down"
-
+                elif event.key == pygame.K_p:
+                    pause()
             #Optional (KEYUP: Stop moving)
             '''
             
