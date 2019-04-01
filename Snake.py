@@ -131,7 +131,15 @@ def text_objects(text,color,size):
 #pause the game function
 def pause():
     paused = True
-
+    message_to_screen("Paused",
+                          black,
+                          -100,
+                          size = "large")
+    message_to_screen("Press C to continue or Q to quit.",
+                          black,
+                          25)
+    pygame.display.update()
+    clock.tick(5)
     while paused:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -145,16 +153,8 @@ def pause():
                 elif event.key == pygame.K_q:
                     pygame.quit()
                     quit()
-        gameDisplay.fill(white)
-        message_to_screen("Paused",
-                          black,
-                          -100,
-                          size = "large")
-        message_to_screen("Press C to contimue or Q to quit.",
-                          black,
-                          25)
-        pygame.display.update()
-        clock.tick(5)
+        
+        
     
 #score
 def score(score):
@@ -193,9 +193,9 @@ def gameLoop():
     randAppleX, randAppleY = randAppleGen()
     
     while not gameExit:
-        #game over functionality 
-        while gameOver == True:
-            gameDisplay.fill(white)
+        #game over functionality
+        
+        if gameOver == True:
             message_to_screen("Game over",
                               red,
                               -50,
@@ -206,6 +206,20 @@ def gameLoop():
                               50,
                               size="medium")
             pygame.display.update()
+
+            
+        while gameOver == True:
+##            gameDisplay.fill(white)
+##            message_to_screen("Game over",
+##                              red,
+##                              -50,
+##                              size="large")
+##            
+##            message_to_screen("Press C to play again or Q  to quit",
+##                              black,
+##                              50,
+##                              size="medium")
+##            pygame.display.update()
 
             for event in pygame.event.get():
                 
